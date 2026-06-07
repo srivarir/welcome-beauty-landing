@@ -12,7 +12,6 @@ const images = [
   { src: hair, alt: "Hair styling" },
   { src: facial, alt: "Spa treatment" },
   { src: nails, alt: "Rose gold manicure" },
-  { src: bride2, alt: "Bridal look" },
   { src: wax, alt: "Spa hygiene" },
 ];
 
