@@ -16,4 +16,22 @@ export const siteConfig = {
     facebook: "https://facebook.com/",
     youtube: "https://youtube.com/",
   },
-};
+  services: [
+    "Hair Cut",
+    "Hair Styling",
+    "Hair Coloring",
+    "Hair Spa",
+    "Facial",
+    "Cleanup",
+    "Bleach",
+    "Detan",
+    "Bridal Makeup",
+    "Reception Makeup",
+    "Engagement Makeup",
+    "Pre-bridal Care",
+    "Threading",
+    "Waxing",
+    "Pedicure",
+    "Manicure",
+  ] as const,
+} as const;
