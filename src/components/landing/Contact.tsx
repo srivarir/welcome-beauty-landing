@@ -1,7 +1,27 @@
-import { Phone, MapPin, Clock, MessageCircle, Mail } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { Phone, MapPin, Clock, MessageCircle, Mail, CalendarDays } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 export function Contact() {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    service: "",
+    time: "",
+  });
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const subject = `Appointment Request from ${form.name}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Phone: ${form.phone}`,
+      `Service: ${form.service}`,
+      `Preferred Time: ${form.time}`,
+    ].join("\n");
+    window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
   return (
     <section id="contact" className="py-24 sm:py-32 bg-muted/40">
       <div className="container mx-auto px-5">
@@ -16,6 +36,7 @@ export function Contact() {
         </div>
 
         <div className="mt-14 grid lg:grid-cols-2 gap-8">
+          {/* Contact cards */}
           <div className="reveal grid sm:grid-cols-2 gap-5">
             <a href={`tel:${siteConfig.phone}`} className="rounded-2xl bg-card p-6 shadow-card hover:shadow-soft transition flex gap-4">
               <div className="h-12 w-12 rounded-xl bg-secondary flex items-center justify-center text-primary"><Phone className="h-6 w-6" /></div>
@@ -54,14 +75,79 @@ export function Contact() {
             </a>
           </div>
 
-          <div className="reveal rounded-3xl overflow-hidden shadow-card aspect-square lg:aspect-auto lg:min-h-[420px]">
-            <iframe
-              src={siteConfig.mapsEmbedSrc}
-              title="Location map"
-              className="h-full w-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          {/* Appointment form */}
+          <div className="reveal">
+            <div className="rounded-3xl bg-card p-8 shadow-card">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-gradient-rose flex items-center justify-center text-primary-foreground shadow-soft">
+                  <CalendarDays className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-semibold">Book an Appointment</h3>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label htmlFor="appt-name" className="block text-sm font-medium text-muted-foreground mb-1.5">Full Name</label>
+                  <input
+                    id="appt-name"
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="appt-phone" className="block text-sm font-medium text-muted-foreground mb-1.5">Phone Number</label>
+                  <input
+                    id="appt-phone"
+                    type="tel"
+                    required
+                    value={form.phone}
+                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="appt-service" className="block text-sm font-medium text-muted-foreground mb-1.5">Service</label>
+                  <select
+                    id="appt-service"
+                    required
+                    value={form.service}
+                    onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition"
+                  >
+                    <option value="" disabled>Select a service</option>
+                    {siteConfig.services.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="appt-time" className="block text-sm font-medium text-muted-foreground mb-1.5">Preferred Time</label>
+                  <input
+                    id="appt-time"
+                    type="text"
+                    required
+                    value={form.time}
+                    onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))}
+                    className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition"
+                    placeholder="e.g. Tomorrow 2 PM"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full rounded-xl bg-gradient-rose py-3.5 text-sm font-semibold text-primary-foreground shadow-soft hover:shadow-lg transition"
+                >
+                  Request Appointment via Email
+                </button>
+                <p className="text-xs text-center text-muted-foreground">
+                  We'll confirm your booking as soon as we receive your request.
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>

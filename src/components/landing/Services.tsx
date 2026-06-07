@@ -1,26 +1,11 @@
 import { Scissors, Sparkles, Crown, Flower2 } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 const groups = [
-  {
-    icon: Scissors,
-    title: "Hair Services",
-    items: ["Hair Cut", "Hair Styling", "Hair Coloring", "Hair Spa"],
-  },
-  {
-    icon: Sparkles,
-    title: "Skin Care",
-    items: ["Facial", "Cleanup", "Bleach", "Detan"],
-  },
-  {
-    icon: Crown,
-    title: "Bridal Services",
-    items: ["Bridal Makeup", "Reception Makeup", "Engagement Makeup", "Pre-bridal Care"],
-  },
-  {
-    icon: Flower2,
-    title: "Beauty Services",
-    items: ["Threading", "Waxing", "Pedicure", "Manicure"],
-  },
+  { icon: Scissors, title: "Hair Services", items: siteConfig.services.slice(0, 4) },
+  { icon: Sparkles, title: "Skin Care", items: siteConfig.services.slice(4, 8) },
+  { icon: Crown, title: "Bridal Services", items: siteConfig.services.slice(8, 12) },
+  { icon: Flower2, title: "Beauty Services", items: siteConfig.services.slice(12, 16) },
 ];
 
 export function Services() {
